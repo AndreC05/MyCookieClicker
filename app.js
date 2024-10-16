@@ -13,24 +13,18 @@ const cpcUpgrade = {
   cost: 50,
   increase: 1,
 };
+//local list of upgrade objects
 let upgradeData = [];
 
 //Counters
 let cookies = parseInt(localStorage.getItem("cookies")) || 0;
 let cps = parseInt(localStorage.getItem("cps")) || 0; //cookies per second
 let cpc = parseInt(localStorage.getItem("cpc")) || 1; // cookies per click
-let upgradeLevel = new Array(11).fill(0); // Level of each upgrade
-
-//Load preferences
+let upgradeLevel =
+  localStorage.getItem("upgradeLevel") || new Array(11).fill(0); // Level of each upgrade
 
 //Increase cpc and cps function (arguments from a list) and Increase upgrade level in array
 function upgradeIncreases(listOfUpgrades, currentIndex) {
-  // debug
-  console.log("Button clicked for upgrade", listOfUpgrades[currentIndex]);
-  console.log("Current cookies:", cookies);
-  console.log("Upgrade price:", listOfUpgrades[currentIndex].cost);
-  console.log("Upgrade increase:", listOfUpgrades[currentIndex].increase);
-
   if (cookies >= listOfUpgrades[currentIndex].cost) {
     if (currentIndex == 0) {
       cookies = cookies - listOfUpgrades[currentIndex].cost;
@@ -48,7 +42,7 @@ function upgradeIncreases(listOfUpgrades, currentIndex) {
   }
 }
 
-//Create new div, button and p element for an upgrade function
+//Function to create new div, button and other elements for an upgrade
 function createUpgradeElements(listOfUpgrades, currentIndex) {
   const createUpgradeDiv = document.createElement("div");
   const createUpgradeBtn = document.createElement("button");
@@ -123,9 +117,12 @@ function save() {
   localStorage.setItem("cpc", cpc);
   localStorage.setItem("cps", cps);
   localStorage.setItem("cookies", cookies);
+  localStorage.setItem("upgradeLevel", upgradeLevel);
 }
 
 //Save preferences function
+
+//Load preferences
 
 //Update and then save gamestate
 function saveAndUpdate() {
