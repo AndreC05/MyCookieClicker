@@ -3,13 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Cookie Clicker</title>
+    <title>Fancy Cookie Clicker</title>
     <link rel="stylesheet" href="./style.css" />
     <script src="./app.js" defer></script>
   </head>
   <body>
     <header>
-      <h1>My Cookie Clicker</h1>
+      <h1>Fancy Cookie Clicker</h1>
+      <nav>
+        <button class="menuBtn" id="resetBtn">Reset</button>
+        <button class="menuBtn" id="saveBtn">Save</button>
+      </nav>
     </header>
     <main>
       <div class="mainDisplay">
@@ -19,11 +23,9 @@
         <p>CPS: <span id="cpsDisplay">0</span></p>
       </div>
 
-      <div id="upgrades">
-        <h1 id="shop">Shop</h1>
-      </div>
+      <h1 id="shop">Shop</h1>
 
-      <button id="resetBtn">Reset</button>
+      <div class="upgrades" id="upgrades"></div>
     </main>
   </body>
 </html>

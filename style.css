@@ -7,10 +7,10 @@ html {
   font-family: sans-serif;
 }
 
-/* header {
+header {
   background: transparent;
-  color: rgb(187, 102, 6);
-  text-shadow: 0.25em 0.2em 0.25em;
+  color: rgb(36, 3, 155);
+  text-shadow: 0.15em 0.1em 0.15em;
   position: fixed;
   top: 0;
   left: 0;
@@ -18,4 +18,115 @@ html {
   flex-wrap: wrap;
   padding: 0.5em;
   z-index: 1;
-} */
+  width: 100vw;
+  justify-content: space-between;
+}
+
+/*Menu options */
+header nav {
+  align-self: center;
+}
+
+/* Menu Buttons */
+nav .menuBtn {
+  width: 5rem;
+  border: 0;
+  background-color: rgb(109, 2, 109);
+  color: rgb(215, 247, 193);
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 3px #111010;
+  transition: 0.2s;
+}
+
+/* Save Button Effects */
+nav #saveBtn:hover {
+  border: 2px solid rgb(215, 247, 193);
+}
+
+nav #saveBtn:active {
+  background-color: rgb(88, 190, 19);
+  box-shadow: 0 1px #111010;
+  transform: translateY(1px);
+}
+
+/* Reset Button Effects */
+nav #resetBtn:hover {
+  border: 3px solid rgb(187, 3, 3);
+}
+
+nav #resetBtn:active {
+  background-color: rgb(212, 7, 7);
+  box-shadow: 0 1px #111010;
+  transform: translateY(1px);
+}
+
+main {
+  display: grid;
+  grid-template-rows: 5rem 25% 5rem minmax(0, 1fr);
+  grid-template-columns: repeat(4, 25%);
+  grid-auto-flow: column;
+  height: 100vh;
+  background-image: url("./assets/Cookies.jpg");
+  background-size: cover;
+}
+
+/*Cookie button, 3 counters (Cookies, CPC, CPS) */
+.mainDisplay {
+  grid-column: 2 / span 2;
+  grid-row: 2;
+  place-self: center;
+}
+
+.mainDisplay button {
+  width: 5rem;
+  height: 5rem;
+}
+
+/* shop title */
+#shop {
+  grid-column: 2 / span 2;
+  grid-row: 3;
+  place-self: center;
+  color: rgb(121, 1, 121);
+  text-shadow: 0.15em 0.1em 0.15em;
+}
+
+.upgrades {
+  grid-column: 1 / span 4;
+  grid-row: 4;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  align-content: space-around;
+  color: rgb(34, 48, 75);
+}
+
+/* Upgrade Buttons Effects */
+.upgrades button {
+  width: 4rem;
+  height: 2rem;
+  border-radius: 25%;
+  border: 0;
+  background-color: rgb(109, 2, 109);
+  color: rgb(215, 247, 193);
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 3px #111010;
+  transition: 0.2s;
+}
+
+/* Upgrade Button Effects */
+.upgrades button:hover {
+  border: 2px solid rgb(215, 247, 193);
+}
+
+.upgrades button:active {
+  background-color: rgb(88, 190, 19);
+  box-shadow: 0 1px #111010;
+  transform: translateY(1px);
+}

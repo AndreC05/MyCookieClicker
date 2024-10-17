@@ -4,6 +4,7 @@ const cookieDisplay = document.getElementById("cookieDisplay");
 const cpcDisplay = document.getElementById("cpcDisplay");
 const cpsDisplay = document.getElementById("cpsDisplay");
 const resetBtn = document.getElementById("resetBtn");
+const saveBtn = document.getElementById("saveBtn");
 const upgradesDiv = document.getElementById("upgrades");
 
 //Upgrade data
@@ -21,21 +22,41 @@ let cookies = parseInt(localStorage.getItem("cookies")) || 0;
 let cps = parseInt(localStorage.getItem("cps")) || 0; //cookies per second
 let cpc = parseInt(localStorage.getItem("cpc")) || 1; // cookies per click
 let upgradeLevel =
-  localStorage.getItem("upgradeLevel") || new Array(11).fill(0); // Level of each upgrade
+  JSON.parse(localStorage.getItem("upgradeLevel")) || new Array(11).fill(0); // Level of each upgrade
 
-//Increase cpc and cps function (arguments from a list) and Increase upgrade level in array
+//Increase cpc and cps and increase upgrade level in array
 function upgradeIncreases(listOfUpgrades, currentIndex) {
-  if (cookies >= listOfUpgrades[currentIndex].cost) {
+  const upgradeCostTxt = document.getElementById(
+    `UpgradeCost${listOfUpgrades[currentIndex].id}`
+  );
+
+  currentCost =
+    listOfUpgrades[currentIndex].cost +
+    upgradeLevel[currentIndex] * listOfUpgrades[currentIndex].cost * 0.2;
+
+  console.log(currentCost);
+
+  if (cookies >= currentCost) {
+    //to display the correct text when not enough cookies for upgrade after pressing button
+    nextCost =
+      listOfUpgrades[currentIndex].cost +
+      (upgradeLevel[currentIndex] + 1) *
+        listOfUpgrades[currentIndex].cost *
+        0.2;
+    console.log(nextCost);
+
     if (currentIndex == 0) {
-      cookies = cookies - listOfUpgrades[currentIndex].cost;
+      cookies = cookies - currentCost;
       cpc = cpc + listOfUpgrades[currentIndex].increase;
       upgradeLevel[currentIndex]++;
+      upgradeCostTxt.textContent = `Cost: ${nextCost}`;
       save();
       loadCounters();
     } else {
       cookies = cookies - listOfUpgrades[currentIndex].cost;
       cps = cps + listOfUpgrades[currentIndex].increase;
       upgradeLevel[currentIndex]++;
+      upgradeCostTxt.textContent = `Cost: ${nextCost}`;
       save();
       loadCounters();
     }
@@ -46,14 +67,28 @@ function upgradeIncreases(listOfUpgrades, currentIndex) {
 function createUpgradeElements(listOfUpgrades, currentIndex) {
   const createUpgradeDiv = document.createElement("div");
   const createUpgradeBtn = document.createElement("button");
-  const createUpgradeTitle = document.createElement("p");
+  const createUpgradeTitle = document.createElement("h3");
+  const createUpgradeCost = document.createElement("h4");
+
+  //Increase each upgrade cost per level of upgrade
+  let currentCost =
+    listOfUpgrades[currentIndex].cost +
+    upgradeLevel[currentIndex] * listOfUpgrades[currentIndex].cost * 0.2;
+
+  console.log(currentCost);
 
   createUpgradeDiv.setAttribute(
     "id",
     `Upgrade${listOfUpgrades[currentIndex].id}`
   );
 
-  createUpgradeTitle.textContent = listOfUpgrades[currentIndex].name;
+  createUpgradeCost.setAttribute(
+    "id",
+    `UpgradeCost${listOfUpgrades[currentIndex].id}`
+  );
+
+  createUpgradeCost.textContent = `Cost: ${currentCost}`;
+  createUpgradeTitle.textContent = `${listOfUpgrades[currentIndex].name}: +${listOfUpgrades[currentIndex].increase}`;
   createUpgradeBtn.textContent = "Upgrade";
   createUpgradeBtn.addEventListener("click", () =>
     upgradeIncreases(listOfUpgrades, currentIndex)
@@ -62,6 +97,7 @@ function createUpgradeElements(listOfUpgrades, currentIndex) {
   // Append the button and title to the div
   createUpgradeDiv.appendChild(createUpgradeTitle);
   createUpgradeDiv.appendChild(createUpgradeBtn);
+  createUpgradeDiv.appendChild(createUpgradeCost);
 
   //append new div to the upgradesDiv
   upgradesDiv.appendChild(createUpgradeDiv);
@@ -77,14 +113,12 @@ async function handleGetUpgrades() {
   //add cpc upgrade object to the beginning of the list of upgrades
   upgradeData.unshift(cpcUpgrade);
 
-  //for loop looping through upgradeData calling previous functions to create upgrades using addevent listener
+  //for loop looping through upgradeData calling previous functions to create upgrades with event listener
   for (let index = 0; index < upgradeData.length; index++) {
     console.log(upgradeData[index]);
     createUpgradeElements(upgradeData, index);
   }
 }
-
-handleGetUpgrades();
 
 //Increse cookies by cps
 function increaseByCps() {
@@ -107,6 +141,7 @@ function loadCounters() {
   cookies = parseInt(localStorage.getItem("cookies")) || 0;
   cps = parseInt(localStorage.getItem("cps")) || 0;
   cpc = parseInt(localStorage.getItem("cpc")) || 1;
+  upgradeLevel = JSON.parse(localStorage.getItem("upgradeLevel"));
   cookieDisplay.textContent = cookies;
   cpcDisplay.textContent = cpc;
   cpsDisplay.textContent = cps;
@@ -117,7 +152,7 @@ function save() {
   localStorage.setItem("cpc", cpc);
   localStorage.setItem("cps", cps);
   localStorage.setItem("cookies", cookies);
-  localStorage.setItem("upgradeLevel", upgradeLevel);
+  localStorage.setItem("upgradeLevel", JSON.stringify(upgradeLevel));
 }
 
 //Save preferences function
@@ -134,13 +169,25 @@ function saveAndUpdate() {
 //Update every second
 setInterval(saveAndUpdate, 1000);
 
+//Reset cost text
+//update cost text
+function updateCostTxt() {}
+
 //Reset function
 function reset() {
   localStorage.setItem("cookies", 0);
   localStorage.setItem("cpc", 1);
   localStorage.setItem("cps", 0);
+  localStorage.setItem("upgradeLevel", JSON.stringify(Array(11).fill(0)));
   loadCounters();
+  location.reload(); // refresh page to update cost values on shop
 }
 
 //Reset on click
 resetBtn.addEventListener("click", reset);
+
+//Save on click
+saveBtn.addEventListener("click", save);
+
+//fetch API
+handleGetUpgrades();
