@@ -3,24 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fancy Cookie Clicker</title>
+    <title>Cookie Clicker</title>
     <link rel="stylesheet" href="./style.css" />
     <script src="./app.js" defer></script>
   </head>
   <body>
     <header>
-      <h1>Fancy Cookie Clicker</h1>
+      <h1>Cookie Clicker 2: The Return Of The Cookie Monster</h1>
       <nav>
         <button class="menuBtn" id="resetBtn">Reset</button>
         <button class="menuBtn" id="saveBtn">Save</button>
       </nav>
     </header>
     <main>
-      <div class="mainDisplay">
-        <button id="cookieBtn">cookie</button>
+      <div class="mainDisplay" id="mainDisplay">
+        <button id="cookieBtn"></button>
         <p>Cookies: <span id="cookieDisplay">0</span></p>
         <p>CPC: <span id="cpcDisplay">0</span></p>
         <p>CPS: <span id="cpsDisplay">0</span></p>
+        <p id="errorMsg">Not Enough Cookies!</p>
       </div>
 
       <h1 id="shop">Shop</h1>

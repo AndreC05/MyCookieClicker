@@ -24,6 +24,18 @@ let cpc = parseInt(localStorage.getItem("cpc")) || 1; // cookies per click
 let upgradeLevel =
   JSON.parse(localStorage.getItem("upgradeLevel")) || new Array(11).fill(0); // Level of each upgrade
 
+//Play upgrade sound
+function playSuccessSound() {
+  const Success = new Audio("./assets/yay.mp3");
+  Success.play();
+}
+
+//Play click sound
+function playClickSound() {
+  const Click = new Audio("./assets/click.mp3");
+  Click.play();
+}
+
 //Increase cpc and cps and increase upgrade level in array
 function upgradeIncreases(listOfUpgrades, currentIndex) {
   const upgradeCostTxt = document.getElementById(
@@ -34,8 +46,6 @@ function upgradeIncreases(listOfUpgrades, currentIndex) {
     listOfUpgrades[currentIndex].cost +
     upgradeLevel[currentIndex] * listOfUpgrades[currentIndex].cost * 0.2;
 
-  console.log(currentCost);
-
   if (cookies >= currentCost) {
     //to display the correct text when not enough cookies for upgrade after pressing button
     nextCost =
@@ -43,7 +53,8 @@ function upgradeIncreases(listOfUpgrades, currentIndex) {
       (upgradeLevel[currentIndex] + 1) *
         listOfUpgrades[currentIndex].cost *
         0.2;
-    console.log(nextCost);
+
+    playSuccessSound();
 
     if (currentIndex == 0) {
       cookies = cookies - currentCost;
@@ -60,6 +71,8 @@ function upgradeIncreases(listOfUpgrades, currentIndex) {
       save();
       loadCounters();
     }
+  } else {
+    upgradeError();
   }
 }
 
@@ -75,8 +88,6 @@ function createUpgradeElements(listOfUpgrades, currentIndex) {
     listOfUpgrades[currentIndex].cost +
     upgradeLevel[currentIndex] * listOfUpgrades[currentIndex].cost * 0.2;
 
-  console.log(currentCost);
-
   createUpgradeDiv.setAttribute(
     "id",
     `Upgrade${listOfUpgrades[currentIndex].id}`
@@ -87,8 +98,13 @@ function createUpgradeElements(listOfUpgrades, currentIndex) {
     `UpgradeCost${listOfUpgrades[currentIndex].id}`
   );
 
+  if (currentIndex == 0) {
+    createUpgradeTitle.textContent = `${listOfUpgrades[currentIndex].name}: +${listOfUpgrades[currentIndex].increase} CPC`;
+  } else {
+    createUpgradeTitle.textContent = `${listOfUpgrades[currentIndex].name}: +${listOfUpgrades[currentIndex].increase} CPS`;
+  }
+
   createUpgradeCost.textContent = `Cost: ${currentCost}`;
-  createUpgradeTitle.textContent = `${listOfUpgrades[currentIndex].name}: +${listOfUpgrades[currentIndex].increase}`;
   createUpgradeBtn.textContent = "Upgrade";
   createUpgradeBtn.addEventListener("click", () =>
     upgradeIncreases(listOfUpgrades, currentIndex)
@@ -115,7 +131,6 @@ async function handleGetUpgrades() {
 
   //for loop looping through upgradeData calling previous functions to create upgrades with event listener
   for (let index = 0; index < upgradeData.length; index++) {
-    console.log(upgradeData[index]);
     createUpgradeElements(upgradeData, index);
   }
 }
@@ -129,12 +144,29 @@ function increaseByCps() {
 
 //Increase cookies by cpc
 function increaseByCpc() {
+  playClickSound();
   cookies = cookies + cpc;
   cookieDisplay.textContent = cookies;
   localStorage.setItem("cookies", cookies);
 }
 //Increase cookies when button is clicked
 cookieBtn.addEventListener("click", increaseByCpc);
+
+//Hide error message
+function hideErrorMsg(message) {
+  message.style.visibility = "hidden";
+}
+
+//Sound effect and error message
+function upgradeError() {
+  const errorMsg = document.getElementById("errorMsg");
+  const errorAudio = new Audio("./assets/errorAudio.mp3");
+  errorAudio.play();
+
+  errorMsg.style.visibility = "visible";
+
+  setTimeout(() => hideErrorMsg(errorMsg), 1200);
+}
 
 //Load counters
 function loadCounters() {
@@ -155,10 +187,6 @@ function save() {
   localStorage.setItem("upgradeLevel", JSON.stringify(upgradeLevel));
 }
 
-//Save preferences function
-
-//Load preferences
-
 //Update and then save gamestate
 function saveAndUpdate() {
   increaseByCps();
@@ -166,12 +194,14 @@ function saveAndUpdate() {
   save();
 }
 
+//Save sound
+function saveSound() {
+  const saveAudio = new Audio("./assets/saveAudio.mp3");
+  saveAudio.play();
+}
+
 //Update every second
 setInterval(saveAndUpdate, 1000);
-
-//Reset cost text
-//update cost text
-function updateCostTxt() {}
 
 //Reset function
 function reset() {
@@ -188,6 +218,8 @@ resetBtn.addEventListener("click", reset);
 
 //Save on click
 saveBtn.addEventListener("click", save);
+//Sound on click
+saveBtn.addEventListener("click", saveSound);
 
 //fetch API
 handleGetUpgrades();

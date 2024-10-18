@@ -7,9 +7,15 @@ html {
   font-family: sans-serif;
 }
 
+body {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
 header {
   background: transparent;
-  color: rgb(36, 3, 155);
+  color: rgb(15, 6, 139);
+  font-size: 0.9rem;
   text-shadow: 0.15em 0.1em 0.15em;
   position: fixed;
   top: 0;
@@ -39,6 +45,7 @@ nav .menuBtn {
   cursor: pointer;
   box-shadow: 0 3px #111010;
   transition: 0.2s;
+  -webkit-text-stroke-width: 0px;
 }
 
 /* Save Button Effects */
@@ -50,6 +57,7 @@ nav #saveBtn:active {
   background-color: rgb(88, 190, 19);
   box-shadow: 0 1px #111010;
   transform: translateY(1px);
+  transition: 0.2s;
 }
 
 /* Reset Button Effects */
@@ -65,11 +73,12 @@ nav #resetBtn:active {
 
 main {
   display: grid;
-  grid-template-rows: 5rem 25% 5rem minmax(0, 1fr);
+  grid-template-rows: 5rem 30% 4rem minmax(0, 1fr);
   grid-template-columns: repeat(4, 25%);
   grid-auto-flow: column;
   height: 100vh;
-  background-image: url("./assets/Cookies.jpg");
+  width: 100vw;
+  background-image: url("./assets/cookie-monster.jpg");
   background-size: cover;
 }
 
@@ -78,11 +87,39 @@ main {
   grid-column: 2 / span 2;
   grid-row: 2;
   place-self: center;
+  color: rgb(123, 255, 0);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/*Error message for upgrades*/
+.mainDisplay #errorMsg {
+  font-size: 1rem;
+  color: rgb(255, 0, 0);
+  font-weight: bolder;
+  text-decoration: underline;
+  visibility: hidden;
+  height: 1.5rem;
 }
 
 .mainDisplay button {
-  width: 5rem;
-  height: 5rem;
+  width: 8rem;
+  height: 7rem;
+  background-image: url(./assets/button.jpg);
+  background-size: cover;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  -webkit-text-stroke-width: 0px;
+}
+
+.mainDisplay button:hover {
+  border: 2px solid rgb(109, 2, 109);
+}
+
+.mainDisplay button:active {
+  transform: translateY(2px);
+  opacity: 80%;
 }
 
 /* shop title */
@@ -90,7 +127,7 @@ main {
   grid-column: 2 / span 2;
   grid-row: 3;
   place-self: center;
-  color: rgb(121, 1, 121);
+  color: rgb(179, 4, 202);
   text-shadow: 0.15em 0.1em 0.15em;
 }
 
@@ -101,7 +138,7 @@ main {
   flex-flow: column wrap;
   justify-content: space-around;
   align-content: space-around;
-  color: rgb(34, 48, 75);
+  color: #ff00d4;
 }
 
 /* Upgrade Buttons Effects */
@@ -118,6 +155,7 @@ main {
   cursor: pointer;
   box-shadow: 0 3px #111010;
   transition: 0.2s;
+  -webkit-text-stroke-width: 0px;
 }
 
 /* Upgrade Button Effects */
