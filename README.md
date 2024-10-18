@@ -11,6 +11,8 @@
 -Click upgrade button bellow each title to increase CPC/CPS by stated value \
 -Warning message will pop-up if current cookies are not enough to buy upgrade.
 
+# Reflection:
+
 Requirements achieved: \
 -Fetch upgrade data from the provided API. \
 -Functions are used effectively to keep code organised and reusable. \
