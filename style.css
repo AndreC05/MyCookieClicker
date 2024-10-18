@@ -92,8 +92,8 @@ main {
   font-size: 1.2rem;
 }
 
-/*Error message for upgrades*/
-.mainDisplay #errorMsg {
+/*Warning message for upgrades*/
+.mainDisplay #warningMsg {
   font-size: 1rem;
   color: rgb(255, 0, 0);
   font-weight: bolder;
@@ -103,9 +103,9 @@ main {
 }
 
 .mainDisplay button {
-  width: 8rem;
-  height: 7rem;
-  background-image: url(./assets/button.jpg);
+  width: 10rem;
+  height: 10rem;
+  background-image: url(./assets/button.png);
   background-size: cover;
   background-color: transparent;
   border: none;

@@ -30,10 +30,16 @@ function playSuccessSound() {
   Success.play();
 }
 
+//Play reset sound
+function playResetSound() {
+  const reset = new Audio("./assets/reset.mp3");
+  reset.play();
+}
+
 //Play click sound
 function playClickSound() {
-  const Click = new Audio("./assets/click.mp3");
-  Click.play();
+  const click = new Audio("./assets/click.mp3");
+  click.play();
 }
 
 //Increase cpc and cps and increase upgrade level in array
@@ -72,7 +78,7 @@ function upgradeIncreases(listOfUpgrades, currentIndex) {
       loadCounters();
     }
   } else {
-    upgradeError();
+    upgradeWarning();
   }
 }
 
@@ -152,20 +158,20 @@ function increaseByCpc() {
 //Increase cookies when button is clicked
 cookieBtn.addEventListener("click", increaseByCpc);
 
-//Hide error message
-function hideErrorMsg(message) {
+//Hide warning message
+function hideWarningMsg(message) {
   message.style.visibility = "hidden";
 }
 
-//Sound effect and error message
-function upgradeError() {
-  const errorMsg = document.getElementById("errorMsg");
-  const errorAudio = new Audio("./assets/errorAudio.mp3");
-  errorAudio.play();
+//Sound effect and warning message
+function upgradeWarning() {
+  const warningMsg = document.getElementById("warningMsg");
+  const warningAudio = new Audio("./assets/warningAudio.mp3");
+  warningAudio.play();
 
-  errorMsg.style.visibility = "visible";
+  warningMsg.style.visibility = "visible";
 
-  setTimeout(() => hideErrorMsg(errorMsg), 1200);
+  setTimeout(() => hideWarningMsg(warningMsg), 1200);
 }
 
 //Load counters
@@ -205,12 +211,13 @@ setInterval(saveAndUpdate, 1000);
 
 //Reset function
 function reset() {
+  playResetSound();
   localStorage.setItem("cookies", 0);
   localStorage.setItem("cpc", 1);
   localStorage.setItem("cps", 0);
   localStorage.setItem("upgradeLevel", JSON.stringify(Array(11).fill(0)));
   loadCounters();
-  location.reload(); // refresh page to update cost values on shop
+  setTimeout(() => location.reload(), 1300); // refresh page to update cost values on shop. Timer used to play sound effect before reloading
 }
 
 //Reset on click
