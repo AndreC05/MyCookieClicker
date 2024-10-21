@@ -24,6 +24,11 @@ let cpc = parseInt(localStorage.getItem("cpc")) || 1; // cookies per click
 let upgradeLevel =
   JSON.parse(localStorage.getItem("upgradeLevel")) || new Array(11).fill(0); // Level of each upgrade
 
+// upgradeLevel = JSON.parse(localStorage.getItem("upgradeLevel"));
+// if (!Array.isArray(upgradeLevel)) {
+//   upgradeLevel = new Array(11).fill(0);
+// }
+
 //Play upgrade sound
 function playSuccessSound() {
   const Success = new Audio("./assets/yay.mp3");
@@ -180,6 +185,9 @@ function loadCounters() {
   cps = parseInt(localStorage.getItem("cps")) || 0;
   cpc = parseInt(localStorage.getItem("cpc")) || 1;
   upgradeLevel = JSON.parse(localStorage.getItem("upgradeLevel"));
+  if (!Array.isArray(upgradeLevel)) {
+    upgradeLevel = new Array(11).fill(0);
+  }
   cookieDisplay.textContent = cookies;
   cpcDisplay.textContent = cpc;
   cpsDisplay.textContent = cps;
