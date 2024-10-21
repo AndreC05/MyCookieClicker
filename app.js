@@ -236,5 +236,9 @@ saveBtn.addEventListener("click", save);
 //Sound on click
 saveBtn.addEventListener("click", saveSound);
 
-//fetch API
-handleGetUpgrades();
+//fetch API and load counters only after windoe loads
+window.addEventListener("load", () => {
+  // Ensure counters and upgrades are loaded only after the window has fully loaded.
+  loadCounters();
+  handleGetUpgrades();
+});
